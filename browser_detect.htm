@@ -2,16 +2,39 @@
     <script>
       function init()
       {
-        var agent = window.navigator.userAgent;
-
         // save this in the browser element
         var browser = document.getElementById("browser");
-        browser.innerHTML = agent;
+        browser.innerHTML = "agent=" + window.navigator.userAgent + "<br/>platform=" + window.navigator.platform + "<br/>";
+
+        redirectIPhone = "sms:8166746583;body=Hello%20Selfiie!";
+        redirectAndroid = "sms:8166746583?body=Hello%20Selfiie!";
+        redirectOther = "https://app.selfii.com";
+
+        setTimeout(() => {
+            // redirect to a different page.
+            // This is a simple example, you can change the URL to any page you want.
+            
+            // detect if broser agent is Android...
+            if (window.navigator.userAgent.indexOf("Android") > -1) {
+                window.location.href = redirectAndroid;
+            } else if (window.navigator.userAgent.indexOf("iPhone") > -1) {
+
+                window.location.href = redirectIPhone;
+
+            } else
+            {
+                window.location.href = redirectOther;
+            }
+        }, 3000);
       }
     </script>
     
     <body onload="init()">
-        You are running on this browser: <span id="browser">DETECTING...</span>
+        You are running on this browser: <br/>
+        <span id="browser">DETECTING...</span>
+
+        Redirecting to: <br/>
+        <span id="redirect">DETECTING PLATFORM FOR REDIRECT...</span>
     </body>    
 </html>
   
