@@ -6,10 +6,27 @@
         var browser = document.getElementById("browser");
         browser.innerHTML = "agent=" + window.navigator.userAgent + "<br/>platform=" + window.navigator.platform + "<br/>";
 
-        redirectIPhone = "sms:8166746583?body=Hello%20Selfiie!";  // should be: "sms:8166746583;body=Hello%20Selfiie!";
+        redirectIPhone = "sms:8166746583;body=Hello%20Selfiie!";
         redirectAndroid = "sms:8166746583?body=Hello%20Selfiie!";
         redirectOther = "https://app.selfii.com";
 
+        // redirect to a different page.
+        // This is a simple example, you can change the URL to any page you want.
+        
+        // detect if browser agent is Android...
+        var launch = document.getElementById("launch");
+        var destination = "";
+        if (window.navigator.userAgent.indexOf("Android") > -1) {
+            destination = redirectAndroid;
+        } else if (window.navigator.userAgent.indexOf("iPhone") > -1) {
+            destination = redirectIPhone;
+        } else
+        {
+            destination = redirectOther;
+        }
+        launch.innerHTML = "<a href='"+destination+"'>Let's get started!</a>";
+
+        /* 
         setTimeout(() => {
             // redirect to a different page.
             // This is a simple example, you can change the URL to any page you want.
@@ -25,13 +42,17 @@
             {
                 window.location.href = redirectOther;
             }
-        }, 1);
+        }, 1); */
       }
     </script>
     
     <body onload="init()">
         You are running on this browser: <br/>
         <span id="browser">DETECTING...</span>
+
+        <br/>
+
+        <span id="launch">DETECTING PLATFORM FOR REDIRECT...</span>
     </body>    
 </html>
   
