@@ -1,0 +1,17 @@
+<html>
+    <script>
+      function init()
+      {
+        var agent = window.navigator.userAgent;
+
+        // save this in the browser element
+        var browser = document.getElementById("browser");
+        browser.innerHTML = agent;
+      }
+    </script>
+    
+    <body onload="init()">
+        You are running on this browser: <span id="browser">DETECTING...</span>
+    </body>    
+</html>
+  
