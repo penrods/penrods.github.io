@@ -1,31 +1,90 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Onboarding Start Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        text-align: center;
+        padding: 50px;
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        font-size: 18px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #info {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+      }
+    </style>
+
     <script>
-      function init()
-      {
+      // Detect the platform running this browser and switch the destination the button leads
+      // to based on what you find.
+      //
+      // When running on a phone, the launch sequence will occur via the SMS text message directly.
+      // When running on a desktop, the launch sequence will occur via the web page that asks the
+      // user for a phone number.
+
+      function init() {
         // save this in the browser element
         var browser = document.getElementById("browser");
-        browser.innerHTML = "agent=" + window.navigator.userAgent + "<br/>platform=" + window.navigator.platform + "<br/>";
+        browser.innerHTML =
+          "agent=" +
+          window.navigator.userAgent +
+          "<br/>";
 
-        redirectIPhone = "sms:8166746583?body=Hello%20Selfiie!"; // from browser looks like the ? is required in iPhone instead of ? for direct SMS link
+        // "sms:12345678" URLs launch the native SMS app on Android and iPhone.  Additionally,
+        // you can pre-load the body of the message with "body=Hello%20Selfiie!".
+        // When working directly from a QR code, the "sms:" URL must have a ; for an iPhone,
+        // but it appears the iPhone browsers correctly handle the "?" in the URL.
+        //
+        redirectIPhone = "sms:8166746583?body=Hello%20Selfiie!"; // can use standard ? instead of ;
         redirectAndroid = "sms:8166746583?body=Hello%20Selfiie!";
         redirectOther = "https://app.selfii.com";
 
-        // redirect to a different page.
-        // This is a simple example, you can change the URL to any page you want.
-        
-        // detect if browser agent is Android...
         var launch = document.getElementById("launch");
         var destination = "";
         if (window.navigator.userAgent.indexOf("Android") > -1) {
-            destination = redirectAndroid;
+          // detected Android...
+          destination = redirectAndroid;
         } else if (window.navigator.userAgent.indexOf("iPhone") > -1) {
-            destination = redirectIPhone;
-        } else
-        {
-            destination = redirectOther;
+          // detected iPhone...
+          destination = redirectIPhone;
+        } else {
+          // unknown, guess desktop
+          destination = redirectOther;
         }
-        launch.innerHTML = "<a href='"+destination+"'>Let's get going via text!</a>";
 
+        // Update the launch element to show the button.
+        launch.innerHTML =
+          "<a href='" +
+          destination +
+          "'><button>Let's get going via text!</button></a>";
+
+        // Avoid doing something like the following.  Without a user interaction,
+        // the attempt to automatically jump to SMS texting on an iPhone displays
+        // a pop-up that asks the user if they want to open this link in the SMS app.
+        // This is a bad user experience.
         /* 
         setTimeout(() => {
             // redirect to a different page.
@@ -45,14 +104,17 @@
         }, 1); */
       }
     </script>
-    
-    <body onload="init()">
-        You are running on this browser: <br/>
+  </head>
+
+  <body onload="init()">
+    <h1>Onboarding Start Page</h1>
+
+    <p><span id="launch">DETECTING PLATFORM FOR REDIRECT...</span></p>
+
+    <p id="info">
+        Browser info:<br />
         <span id="browser">DETECTING...</span>
-
-        <br/>
-
-        <span id="launch">DETECTING PLATFORM FOR REDIRECT...</span>
-    </body>    
+    </p>
+ 
+  </body>
 </html>
-  
